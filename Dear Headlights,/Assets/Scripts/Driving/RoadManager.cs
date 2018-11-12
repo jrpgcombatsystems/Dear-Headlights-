@@ -32,6 +32,7 @@ public class RoadManager : MonoBehaviour {
         // Lerp to segment max
         float startingUpperOffset = Services.roadRenderer.upperOffset;
         float startingCarInfluence = Services.roadRenderer.currentCarInfluence;
+        float startingControlPointYOffset = Services.roadRenderer.controlPointYOffset;
         float lerpValue = 0f;
         float lerpDuration = 3.5f;
         yield return new WaitUntil(() => {
@@ -39,6 +40,7 @@ public class RoadManager : MonoBehaviour {
             if (lerpValue < lerpDuration) {
                 Services.roadRenderer.upperOffset = Mathf.Lerp(startingUpperOffset, segment.curveOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 Services.roadRenderer.currentCarInfluence = Mathf.Lerp(startingCarInfluence, segment.carInfluence, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.roadRenderer.controlPointYOffset = Mathf.Lerp(startingControlPointYOffset, segment.controlPointYOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 return false;
             }
 

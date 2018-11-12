@@ -11,4 +11,8 @@ public class GameManager : MonoBehaviour {
         Services.roadManager = FindObjectOfType<RoadManager>();
         Services.roadRenderer = FindObjectOfType<Road>();
     }
+
+    public void Crash() {
+        Debug.Log("you fucking died");
+    }
 }
