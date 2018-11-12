@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public float currentSpeed = 1f;
-
     private void Awake() {
+        // Locate and store references to various important classes.
         Services.gameManager = this;
         Services.roadManager = FindObjectOfType<RoadManager>();
-        Services.roadRenderer = FindObjectOfType<Road>();
+        Services.roadRenderer = FindObjectOfType<RoadRenderer>();
+        Services.car = FindObjectOfType<Car>();
     }
 
     public void Crash() {
         Debug.Log("you fucking died");
+        // This'll do more stuff later
     }
 }

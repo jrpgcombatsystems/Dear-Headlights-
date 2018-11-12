@@ -21,14 +21,14 @@ public class RoadObject : MonoBehaviour {
 
     private void Update() {
         float yPosition = approachCurve.Evaluate(currentDistance);
-        yPosition = MyMath.Map(yPosition, 0f, 1f, Services.roadRenderer.horizon, Services.roadRenderer.leftRoad.endPoint.position.y);
+        yPosition = Den.Math.Map(yPosition, 0f, 1f, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y);
 
         transform.position = Services.roadRenderer.GetRoadPosition(roadPosition, approachCurve.Evaluate(currentDistance));
 
-        float newScale = MyMath.Map(yPosition, Services.roadRenderer.horizon, Services.roadRenderer.leftRoad.endPoint.position.y, 0.01f, maxScale);
+        float newScale = Den.Math.Map(yPosition, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y, 0.01f, maxScale);
         transform.localScale = originalScale * newScale;
 
-        currentDistance += approachSpeed * Time.deltaTime * Services.gameManager.currentSpeed;
+        currentDistance += approachSpeed * Time.deltaTime * Services.car.currentSpeed;
 
         if (currentDistance > 1) {
             currentDistance = 0;

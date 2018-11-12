@@ -724,7 +724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 289225216}
   m_Layer: 0
-  m_Name: Control Point
+  m_Name: Curve Control Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,9 +926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e297022bcfdaf4ba063019f6a4871c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveOffset: 4
-  carInfluence: 6
-  controlPointOffset: {x: -5, y: 0, z: 0}
+  curvePower: 5
 --- !u!1 &362507974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,7 +1697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 523526613}
   m_Layer: 0
-  m_Name: Start Point
+  m_Name: Upper Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1835,7 +1833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09b7764e69aacd4ea1e07e543705e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 1
 --- !u!1 &674852254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,7 +1842,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674852255}
   m_Layer: 0
-  m_Name: End Point
+  m_Name: Lower Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2158,7 +2155,7 @@ GameObject:
   - component: {fileID: 775753135}
   - component: {fileID: 775753134}
   m_Layer: 0
-  m_Name: Road
+  m_Name: Road Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2175,17 +2172,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6cda55ceb68676478c8ec69f501a119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upperOffset: 0
   horizon: 6
-  width: 50
-  lowerOffset: 0
-  controlPointOffset: {x: 0, y: 0, z: 0}
-  currentCarInfluence: 0
   deathOffset: 3
-  turnSpeed: 20
-  accelerationSpeed: 0.05
-  leftRoad: {fileID: 900744425}
-  rightRoad: {fileID: 1232586344}
+  leftEdgeCurve: {fileID: 900744425}
+  rightEdgeCurve: {fileID: 1232586344}
+  vanishingPointOffset: {x: 0, y: 0, z: 0}
+  roadWidth: 50
+  curveControlPointOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &775753135
 Transform:
   m_ObjectHideFlags: 0
@@ -2241,9 +2234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e297022bcfdaf4ba063019f6a4871c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveOffset: 0
-  carInfluence: 0
-  controlPointOffset: {x: 0, y: 0, z: 0}
+  curvePower: 0
 --- !u!1 &873094397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,9 +2522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ff104214c4fa6488e7ab3e94726b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 1714729036}
-  endPoint: {fileID: 674852255}
-  controlPoint: {fileID: 289225216}
+  upperPointTransform: {fileID: 1714729036}
+  lowerPointTransform: {fileID: 674852255}
+  controlPointTransform: {fileID: 289225216}
 --- !u!1 &914146331
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,9 +2565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e297022bcfdaf4ba063019f6a4871c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveOffset: -4
-  carInfluence: -6
-  controlPointOffset: {x: 5, y: 0, z: 0}
+  curvePower: -5
 --- !u!4 &989000073 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4534627345911248, guid: 70101bf8e6e0e426981063cd1075cd88,
@@ -2640,7 +2629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1071932079}
   m_Layer: 0
-  m_Name: Control Point
+  m_Name: Curve Control Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2992,9 +2981,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ff104214c4fa6488e7ab3e94726b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 523526613}
-  endPoint: {fileID: 1669029081}
-  controlPoint: {fileID: 1071932079}
+  upperPointTransform: {fileID: 523526613}
+  lowerPointTransform: {fileID: 1669029081}
+  controlPointTransform: {fileID: 1071932079}
 --- !u!1 &1318477475
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3442,52 @@ Transform:
   m_Father: {fileID: 1047948013}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1448414753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1448414754}
+  - component: {fileID: 1448414755}
+  m_Layer: 0
+  m_Name: Car
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1448414754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1448414753}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1991628431}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1448414755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1448414753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e514bb793f32954ab376bc33940ed50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedAtGameStart: 1
+  turnSpeed: 20
+  accelerationSpeed: 0.05
+  currentSpeed: 0
+  turningValue: 0
+  steeringInfluenceFromCurve: 0
 --- !u!1 &1450377716
 GameObject:
   m_ObjectHideFlags: 0
@@ -3605,7 +3640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1669029081}
   m_Layer: 0
-  m_Name: End Point
+  m_Name: Lower Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3699,7 +3734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1714729036}
   m_Layer: 0
-  m_Name: Start Point
+  m_Name: Upper Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4116,9 +4151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e297022bcfdaf4ba063019f6a4871c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveOffset: -7
-  carInfluence: -9
-  controlPointOffset: {x: 10, y: 0, z: 0}
+  curvePower: -9
 --- !u!1 &1991628430
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,6 +4179,7 @@ Transform:
   m_Children:
   - {fileID: 599563098}
   - {fileID: 362507975}
+  - {fileID: 1448414754}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4332,9 +4366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e297022bcfdaf4ba063019f6a4871c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curveOffset: 7
-  carInfluence: 9
-  controlPointOffset: {x: -10, y: 0, z: 0}
+  curvePower: 9
 --- !u!1 &2136100144
 GameObject:
   m_ObjectHideFlags: 0

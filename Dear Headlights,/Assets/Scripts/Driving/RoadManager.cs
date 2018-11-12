@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for controlling the layout of the road, for example choosing when the road should curve and in which direction.
+/// </summary>
 public class RoadManager : MonoBehaviour {
 
+    // How long a segment of road lasts.
     [SerializeField] float baseTimePerSegment = 5f;
 
-    RoadSegment[] roadSegments;
+    RoadCurveSegment[] roadSegments;
     float segmentTimer = 0f;
     bool segmentFinished = true;
 
     private void Awake() {
-        roadSegments = GetComponentsInChildren<RoadSegment>();
+        roadSegments = GetComponentsInChildren<RoadCurveSegment>();
     }
 
     private void Update() {
@@ -20,41 +24,48 @@ public class RoadManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Begins the process of choosing and applying a new road segment. The possible segments are stored as monobehaviors on game objects parented to this script's game object.
+    /// </summary>
     void BeginNewSegment() {
         segmentFinished = false;
-        RoadSegment nextSegment = roadSegments[Random.Range(0, roadSegments.Length)];
+
+        // Choose a new segment at random.
+        RoadCurveSegment nextSegment = roadSegments[Random.Range(0, roadSegments.Length)];
         Debug.Log("Begining segment:" + nextSegment.name);
-        StartCoroutine(CurveSequence(nextSegment));
+
+        // Begin the process of applying the chosen segment to the road.
+        StartCoroutine(ApplyCurveSequence(nextSegment));
     }
 
-    IEnumerator CurveSequence(RoadSegment segment) {
-        // Lerp to segment max
-        float startingUpperOffset = Services.roadRenderer.upperOffset;
-        float startingCarInfluence = Services.roadRenderer.currentCarInfluence;
-        Vector3 startingControlPointOffset = Services.roadRenderer.controlPointOffset;
+    IEnumerator ApplyCurveSequence(RoadCurveSegment segment) {
+        // Store the variables to lerp from.
+        Vector3 startingVanishingPointOffset = Services.roadRenderer.vanishingPointOffset;
+        float startingSteeringInfluence = Services.car.steeringInfluenceFromCurve;
+        Vector3 startingControlPointOffset = Services.roadRenderer.curveControlPointOffset;
+
+        // Lerp the road renderer's values to those of the chosen segment, and wait until the lerp finishes to continue.
         float lerpValue = 0f;
         float lerpDuration = 3.5f;
         yield return new WaitUntil(() => {
-            lerpValue += Time.deltaTime * Services.gameManager.currentSpeed;
+            lerpValue += Time.deltaTime * Services.car.currentSpeed;
             if (lerpValue < lerpDuration) {
-                Services.roadRenderer.upperOffset = Mathf.Lerp(startingUpperOffset, segment.curveOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
-                Services.roadRenderer.currentCarInfluence = Mathf.Lerp(startingCarInfluence, segment.carInfluence, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
-                Services.roadRenderer.controlPointOffset = Vector3.Lerp(startingControlPointOffset, segment.controlPointOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.roadRenderer.vanishingPointOffset.x = Mathf.Lerp(startingVanishingPointOffset.x, segment.curvePower, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.car.steeringInfluenceFromCurve = Mathf.Lerp(startingSteeringInfluence, segment.CarInfluence, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.roadRenderer.curveControlPointOffset = Vector3.Lerp(startingControlPointOffset, segment.ControlPointOffset, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 return false;
             }
 
             else {
-                Services.roadRenderer.upperOffset = segment.curveOffset;
+                Services.roadRenderer.vanishingPointOffset.x = segment.curvePower;
                 return true;
             }
         });
 
-        // Change influence on car also... once there is a car
-
-        // Wait for segment to finish
+        // Wait for the now-current segment to finish.
         float timer = 0f;
         yield return new WaitUntil(() => {
-            timer += Time.deltaTime * Services.gameManager.currentSpeed;
+            timer += Time.deltaTime * Services.car.currentSpeed;
             if (timer < baseTimePerSegment) {
                 return false;
             }
@@ -68,10 +79,4 @@ public class RoadManager : MonoBehaviour {
 
         yield return null;
     }
-
-    //RoadSegment GetRandomSegment() {
-    //    int numberOfSegments = System.Enum.GetValues(typeof(RoadSegment)).Length;
-    //    int nextSegmentIndex = Random.Range(0, numberOfSegments);
-    //    return (RoadSegment) nextSegmentIndex;
-    //}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour {
 
-    [SerializeField] IntRange enemyAmountRange = new IntRange(2, 5);
+    [SerializeField] Den.IntRange enemyAmountRange = new Den.IntRange(2, 5);
     [SerializeField] Vector2 arenaSize;
 
     [SerializeField] PlayerControllerBattle player;
