@@ -23,7 +23,7 @@ public class Road : MonoBehaviour {
     private void Update() {
 
         // Get horizontal input.
-        lowerOffset += Input.GetAxis("Horizontal") * -turnSpeed * Services.gameManager.currentSpeed * Time.deltaTime;
+        lowerOffset += Input.GetAxisRaw("Horizontal") * -turnSpeed * Services.gameManager.currentSpeed * Time.deltaTime;
 
         // Speed up
         if (Input.GetAxisRaw("Vertical") > 0) {
@@ -31,7 +31,7 @@ public class Road : MonoBehaviour {
         }
 
         // Set vanishing point
-        Vector3 newVanishingPoint = new Vector3(upperOffset + lowerOffset * 0.25f, horizon, 0f);
+        Vector3 newVanishingPoint = new Vector3(upperOffset + lowerOffset * 0.1f, horizon, 0f);
         leftRoad.startPoint.localPosition = newVanishingPoint;
         rightRoad.startPoint.localPosition = newVanishingPoint;
 
@@ -42,8 +42,10 @@ public class Road : MonoBehaviour {
         rightRoad.endPoint.position = new Vector3((width * 0.5f) + lowerOffset, rightRoad.endPoint.position.y, 0f);
 
         // Set road control point positions
-        leftRoad.controlPoint.position = Vector3.Lerp(leftRoad.endPoint.position, leftRoad.startPoint.position, 0.75f) + controlPointOffset;
-        rightRoad.controlPoint.position = Vector3.Lerp(rightRoad.endPoint.position, rightRoad.startPoint.position, 0.75f) + controlPointOffset;
+        Vector3 _controlPointOffset = controlPointOffset;
+        _controlPointOffset.x += lowerOffset * 0.15f;
+        leftRoad.controlPoint.position = Vector3.Lerp(leftRoad.endPoint.position, leftRoad.startPoint.position, 0.75f) + _controlPointOffset;
+        rightRoad.controlPoint.position = Vector3.Lerp(rightRoad.endPoint.position, rightRoad.startPoint.position, 0.75f) + _controlPointOffset;
 
         // See if I died
         if (leftRoad.endPoint.position.x > -deathOffset || rightRoad.endPoint.position.x < deathOffset) {
