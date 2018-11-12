@@ -28,11 +28,10 @@ public class RoadManager : MonoBehaviour {
     }
 
     IEnumerator CurveSequence(RoadSegment segment) {
-
         // Lerp to segment max
         float startingUpperOffset = Services.roadRenderer.upperOffset;
         float startingCarInfluence = Services.roadRenderer.currentCarInfluence;
-        float startingControlPointYOffset = Services.roadRenderer.controlPointYOffset;
+        Vector3 startingControlPointOffset = Services.roadRenderer.controlPointOffset;
         float lerpValue = 0f;
         float lerpDuration = 3.5f;
         yield return new WaitUntil(() => {
@@ -40,7 +39,7 @@ public class RoadManager : MonoBehaviour {
             if (lerpValue < lerpDuration) {
                 Services.roadRenderer.upperOffset = Mathf.Lerp(startingUpperOffset, segment.curveOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 Services.roadRenderer.currentCarInfluence = Mathf.Lerp(startingCarInfluence, segment.carInfluence, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
-                Services.roadRenderer.controlPointYOffset = Mathf.Lerp(startingControlPointYOffset, segment.controlPointYOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.roadRenderer.controlPointOffset = Vector3.Lerp(startingControlPointOffset, segment.controlPointOffset, MyMath.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 return false;
             }
 

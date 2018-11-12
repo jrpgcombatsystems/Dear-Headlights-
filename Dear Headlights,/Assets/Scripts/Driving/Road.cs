@@ -8,7 +8,7 @@ public class Road : MonoBehaviour {
     public float horizon = 0f;
     [HideInInspector] public float width = 50f;
     [HideInInspector] public float lowerOffset = 0f;
-    [HideInInspector] public float controlPointYOffset = 0f;
+    [HideInInspector] public Vector3 controlPointOffset = Vector3.zero;
     [HideInInspector] public float currentCarInfluence = 0f;
     public float deathOffset;
 
@@ -31,7 +31,7 @@ public class Road : MonoBehaviour {
         }
 
         // Set vanishing point
-        Vector3 newVanishingPoint = new Vector3(upperOffset, horizon, 0f);
+        Vector3 newVanishingPoint = new Vector3(upperOffset + lowerOffset * 0.25f, horizon, 0f);
         leftRoad.startPoint.localPosition = newVanishingPoint;
         rightRoad.startPoint.localPosition = newVanishingPoint;
 
@@ -42,12 +42,8 @@ public class Road : MonoBehaviour {
         rightRoad.endPoint.position = new Vector3((width * 0.5f) + lowerOffset, rightRoad.endPoint.position.y, 0f);
 
         // Set road control point positions
-        Vector3 newPosition = leftRoad.controlPoint.position;
-        newPosition.y += controlPointYOffset;
-        leftRoad.controlPoint.position = newPosition;
-        newPosition = rightRoad.controlPoint.position;
-        newPosition.y += controlPointYOffset;
-        leftRoad.controlPoint.position = newPosition;
+        leftRoad.controlPoint.position = Vector3.Lerp(leftRoad.endPoint.position, leftRoad.startPoint.position, 0.75f) + controlPointOffset;
+        rightRoad.controlPoint.position = Vector3.Lerp(rightRoad.endPoint.position, rightRoad.startPoint.position, 0.75f) + controlPointOffset;
 
         // See if I died
         if (leftRoad.endPoint.position.x > -deathOffset || rightRoad.endPoint.position.x < deathOffset) {
