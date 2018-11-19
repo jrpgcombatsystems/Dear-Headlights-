@@ -54,12 +54,17 @@ public class RoadRenderer : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets a position that is a certain percentage of the way across the road. 0 is all the way to the left, 1 is all the way to the right.
+    /// Gets a position that is a certain distance across the road. -1 is the left edge of the road, 1 is the right edge, and 0 is the very center.
     /// </summary>
-    public Vector3 GetRoadPosition(float roadPercentage, float distance) {
-        Vector3 leftRoadPosition = MovePointDownLine(distance, leftEdgeCurve.m_LineRenderer);
-        Vector3 rightRoadPosition = MovePointDownLine(distance, rightEdgeCurve.m_LineRenderer);
-        return Vector3.Lerp(leftRoadPosition, rightRoadPosition, roadPercentage);
+    public Vector3 GetRoadPosition(float roadPositionValue, float yPosition) {
+        Vector3 leftRoadPosition = GetYPositionOnLine(yPosition, leftEdgeCurve.m_LineRenderer);
+        Vector3 rightRoadPosition = GetYPositionOnLine(yPosition, rightEdgeCurve.m_LineRenderer);
+
+        Vector3 position = Vector3.Lerp(leftRoadPosition, rightRoadPosition, 0.5f);
+
+        position.x += roadPositionValue * (Vector3.Distance(leftRoadPosition, rightRoadPosition) * 0.5f);
+
+        return position;
     }
 
     /// <summary>
@@ -97,5 +102,52 @@ public class RoadRenderer : MonoBehaviour {
 
         Debug.LogError("hey this thing fucking doesnt work dude");
         return Vector3.zero;
+    }
+
+    public Vector3 GetYPositionOnLine(float yPosition, LineRenderer lineRenderer) {
+        for (int i = 0; i < lineRenderer.positionCount - 1; i++) {
+
+            // See if this segment includes the point we're looking for
+            if (lineRenderer.GetPosition(i + 1).y > yPosition) {
+                continue;
+            }
+
+            // If this the point IS on the next segment
+            else {
+                bool intersectionFound = false;
+                Vector2 intersectPoint = GetIntersectionPointCoordinates(
+                    Services.roadRenderer.transform.TransformPoint(new Vector2(-100f, yPosition)),
+                    Services.roadRenderer.transform.TransformPoint(new Vector2(100f, yPosition)),
+                    Services.roadRenderer.transform.TransformPoint(lineRenderer.GetPosition(i)),
+                    Services.roadRenderer.transform.TransformPoint(lineRenderer.GetPosition(i + 1)),
+                    out intersectionFound
+                    );
+                if (intersectionFound) {
+                    return intersectPoint;
+                }
+            }
+        }
+
+        //Debug.LogError("hey this thing fucking doesnt work dude");
+        return new Vector3(10000f, 10000f, 0f);
+    }
+
+    Vector2 GetIntersectionPointCoordinates(Vector2 A1, Vector2 A2, Vector2 B1, Vector2 B2, out bool found) {
+        float tmp = (B2.x - B1.x) * (A2.y - A1.y) - (B2.y - B1.y) * (A2.x - A1.x);
+
+        if (tmp == 0) {
+            // No solution!
+            found = false;
+            return Vector2.zero;
+        }
+
+        float mu = ((A1.x - B1.x) * (A2.y - A1.y) - (A1.y - B1.y) * (A2.x - A1.x)) / tmp;
+
+        found = true;
+
+        return new Vector2(
+            B1.x + (B2.x - B1.x) * mu,
+            B1.y + (B2.y - B1.y) * mu
+        );
     }
 }

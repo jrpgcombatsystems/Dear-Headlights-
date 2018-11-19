@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
         Services.roadManager = FindObjectOfType<RoadManager>();
         Services.roadRenderer = FindObjectOfType<RoadRenderer>();
         Services.car = FindObjectOfType<Car>();
+        Services.roadsideObjectManager = FindObjectOfType<RoadsideObjectManager>();
     }
 
     public void Crash() {
