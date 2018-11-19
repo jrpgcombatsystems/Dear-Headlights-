@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BattleSystem {
     public class GameManager : MonoBehaviour {
 
-        enum GameState { Field, Battle }
+        enum GameState { Idle, Battle }
         GameState gameState;
 
 
@@ -31,7 +31,7 @@ namespace BattleSystem {
 
 
         private void Update() {
-            if (gameState == GameState.Field) {
+            if (gameState == GameState.Idle) {
                 Services.playerControllerField.Run();
             }
 
@@ -47,7 +47,7 @@ namespace BattleSystem {
 
 
         void BattleWonHandler(GameEvent gameEvent) {
-            gameState = GameState.Field;
+            gameState = GameState.Idle;
         }
     }
 }
