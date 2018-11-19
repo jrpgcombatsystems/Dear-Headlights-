@@ -56,6 +56,14 @@ namespace Den {
         }
 
         /// <summary>
+        /// Keeps a given number above or equal to a certain value.
+        /// </summary>
+        public static float KeepAboveOrEqualTo(float value, float min) {
+            if (value < min) { value = min; }
+            return value;
+        } 
+
+        /// <summary>
         /// Returns a random value that is either 1 or -1f.
         /// </summary>
         public static float Either1orNegative1 {

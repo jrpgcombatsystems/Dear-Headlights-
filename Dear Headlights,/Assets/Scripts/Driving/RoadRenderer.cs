@@ -9,25 +9,22 @@ public class RoadRenderer : MonoBehaviour {
 
     public float horizon = 0f; // The y position of the horizon.
 
-    // How far in either direction the car has to travel to die. (This should be replaced with a better system for collision detection eventually.)
-    public float deathOffset;
-
     [SerializeField] public RoadLineCurver leftEdgeCurve;
     [SerializeField] public RoadLineCurver rightEdgeCurve;
 
     [HideInInspector] public Vector3 vanishingPointOffset = Vector3.zero;
-    private float lowerOffset = 0f;
+    [HideInInspector] public float lowerOffset = 0f;
     [HideInInspector] public float roadWidth = 50f;
     [HideInInspector] public Vector3 curveControlPointOffset = Vector3.zero;
 
     // Used in collision detection for edges of the road. Should be replaced with a better system.
-    float previousLowerOffset = 0f;
+    [HideInInspector] public float previousLowerOffset = 0f;
 
 
     private void Update() {
 
         // Set the lower offset based on the direction the car is currently turning.
-        lowerOffset -= Services.car.turningValue;
+        lowerOffset = Den.Math.Map(Services.car.roadPosition, -1f, 1f, roadWidth * 0.5f, roadWidth * -0.5f);
 
         // Set the position of the vanishing point.
         Vector3 newVanishingPoint = new Vector3(vanishingPointOffset.x + lowerOffset * 0.1f, horizon, 0f);
@@ -43,12 +40,6 @@ public class RoadRenderer : MonoBehaviour {
         _controlPointOffset.x += lowerOffset * 0.15f;
         leftEdgeCurve.curveControlPoint = Vector3.Lerp(leftEdgeCurve.lowerPoint, leftEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
         rightEdgeCurve.curveControlPoint = Vector3.Lerp(rightEdgeCurve.lowerPoint, rightEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
-
-        // See if I died
-        if (leftEdgeCurve.lowerPoint.x > -deathOffset || rightEdgeCurve.lowerPoint.x < deathOffset) {
-            lowerOffset = previousLowerOffset;
-            Services.gameManager.Crash();
-        }
 
         previousLowerOffset = lowerOffset;
     }

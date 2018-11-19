@@ -36,6 +36,9 @@ public class RoadObject : MonoBehaviour {
     }
 
     void RemoveSelf() {
+        // See if we are colliding with the player.
+        
+
         if (loop) {
             currentDistance = 0f;
             roadPosition = Services.roadsideObjectManager.GetRandomOffRoadPosition();
