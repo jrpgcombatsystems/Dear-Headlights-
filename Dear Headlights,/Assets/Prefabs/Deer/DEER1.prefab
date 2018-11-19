@@ -126,6 +126,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   approachSpeed: 0.3
   loop: 0
+  isCollidable: 1
   currentDistance: 0
 --- !u!212 &212821729603451138
 SpriteRenderer:

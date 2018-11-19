@@ -347,8 +347,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2137861597
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a8ae5d5b0e5095f49ae46b182e82d7a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 534669903}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -499,8 +499,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2137861597
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7ba895e2bca24ec4dadbc243b8f71852, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -687,7 +687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcef3bc158d777f4ea03161b600acdef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deerPrefabs: []
+  deerPrefabs:
+  - {fileID: 1396722065647814, guid: 70101bf8e6e0e426981063cd1075cd88, type: 2}
+  spawnFrequency: 1
 --- !u!1 &746350261
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,12 +857,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizon: 6
-  deathOffset: 3
   leftEdgeCurve: {fileID: 900744425}
   rightEdgeCurve: {fileID: 1232586344}
   vanishingPointOffset: {x: 0, y: 0, z: 0}
+  lowerOffset: 0
   roadWidth: 50
   curveControlPointOffset: {x: 0, y: 0, z: 0}
+  previousLowerOffset: 0
 --- !u!4 &775753135
 Transform:
   m_ObjectHideFlags: 0
@@ -1398,10 +1401,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedAtGameStart: 0.1
-  turnSpeed: 40
+  turnSpeed: 1.15
+  minTurnSpeed: 0.34
   accelerationSpeed: 0.05
   currentSpeed: 0
   turningValue: 0
+  roadPosition: 0.5
   steeringInfluenceFromCurve: 0
 --- !u!1 &1669029080
 GameObject:
@@ -1699,8 +1704,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2137861597
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 142a5947ed411604ea4895177534a265, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1808,8 +1813,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2137861597
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d58ef7358dee0744db665647b6e4ed6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1896,8 +1901,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2137861597
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5ebed7aa53e0d634ba2452d13d987b6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1948,6 +1953,16 @@ Prefab:
     - target: {fileID: 4534627345911248, guid: 70101bf8e6e0e426981063cd1075cd88, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213898954644966, guid: 70101bf8e6e0e426981063cd1075cd88,
+        type: 2}
+      propertyPath: isCollidable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213898954644966, guid: 70101bf8e6e0e426981063cd1075cd88,
+        type: 2}
+      propertyPath: loop
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70101bf8e6e0e426981063cd1075cd88, type: 2}
