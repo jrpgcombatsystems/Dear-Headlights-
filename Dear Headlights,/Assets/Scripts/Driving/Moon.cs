@@ -9,7 +9,7 @@ public class Moon : MonoBehaviour {
     private void Update() {
         Vector3 newPosition = transform.position;
         newPosition.x += (Services.car.turningValue - Services.car.steeringInfluenceFromCurve) * -moveSpeed * Time.deltaTime;
-        newPosition.x = Den.Math.Wrap(newPosition.x, -25f, 25f);
+        newPosition.x = Den.Math.Wrap(newPosition.x, -15f, 15f);
         transform.position = newPosition;
     }
 }

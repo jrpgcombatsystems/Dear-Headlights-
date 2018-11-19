@@ -1398,7 +1398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedAtGameStart: 0.1
-  turnSpeed: 20
+  turnSpeed: 40
   accelerationSpeed: 0.05
   currentSpeed: 0
   turningValue: 0
