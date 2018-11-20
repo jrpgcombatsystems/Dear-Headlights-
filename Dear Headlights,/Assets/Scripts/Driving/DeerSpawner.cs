@@ -10,7 +10,7 @@ public class DeerSpawner : MonoBehaviour {
     private float spawnTimer = 0f;
 
     private void Update() {
-        spawnTimer += Time.deltaTime;
+        spawnTimer += Services.gameManager.drivingDeltaTime;
         if (spawnTimer >= spawnFrequency) {
 
             RoadObject newDear = Instantiate(deerPrefabs[Random.Range(0, deerPrefabs.Length)]).GetComponent<RoadObject>();

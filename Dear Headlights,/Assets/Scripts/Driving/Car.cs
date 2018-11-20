@@ -26,16 +26,16 @@ public class Car : MonoBehaviour {
 
     private void Update() {
         // Get horizontal input.
-        turningValue = Input.GetAxisRaw("Horizontal") * turnSpeed * (currentSpeed + minTurnSpeed) * Time.deltaTime;
+        turningValue = Input.GetAxisRaw("Horizontal") * turnSpeed * (currentSpeed + minTurnSpeed) * Services.gameManager.drivingDeltaTime;
 
         // Apply current turn influence.
-        turningValue += steeringInfluenceFromCurve * Services.car.currentSpeed * Time.deltaTime;
+        turningValue += steeringInfluenceFromCurve * Services.car.currentSpeed * Services.gameManager.drivingDeltaTime;
 
         roadPosition += turningValue;
 
         // Accelerate.
         if (Input.GetAxisRaw("Vertical") > 0) {
-            currentSpeed += accelerationSpeed * Time.deltaTime;
+            currentSpeed += accelerationSpeed * Services.gameManager.drivingDeltaTime;
         }
 
         // See if the player went off the side of the road.

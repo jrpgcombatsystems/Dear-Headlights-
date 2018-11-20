@@ -22,7 +22,12 @@ public class RoadObject : MonoBehaviour {
 
     Vector3 previousPosition = Vector3.zero;
     private void Update() {
-        currentDistance = Mathf.Clamp01(currentDistance + approachSpeed * Time.deltaTime * Services.car.currentSpeed);
+        if (deleteTag) {
+            RemoveSelf();
+            return;
+        }
+
+        currentDistance = Mathf.Clamp01(currentDistance + approachSpeed * Services.gameManager.drivingDeltaTime * Services.car.currentSpeed);
 
         float yPosition = approachCurve.Evaluate(currentDistance);
         yPosition = Den.Math.Map(yPosition, 0f, 1f, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y);
@@ -38,12 +43,15 @@ public class RoadObject : MonoBehaviour {
             if (isCollidable) {
                 // See if we are colliding with the player.
                 float viewportX = Camera.main.WorldToViewportPoint(previousPosition).x;
-                if (viewportX >= 0.3f && viewportX < 0.6f) {
+                if (viewportX >= 0.2f && viewportX < 0.7f) {
+                    transform.position = previousPosition;
                     Services.gameManager.Crash();
                 }
             }
 
-            RemoveSelf();
+            else {
+                deleteTag = true;
+            }
         }
 
         previousPosition = transform.position;

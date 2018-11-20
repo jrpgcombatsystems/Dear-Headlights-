@@ -48,7 +48,7 @@ public class RoadManager : MonoBehaviour {
         float lerpValue = 0f;
         float lerpDuration = 3.5f;
         yield return new WaitUntil(() => {
-            lerpValue += Time.deltaTime * Services.car.currentSpeed;
+            lerpValue += Services.gameManager.drivingDeltaTime * Services.car.currentSpeed;
             if (lerpValue < lerpDuration) {
                 Services.roadRenderer.vanishingPointOffset.x = Mathf.Lerp(startingVanishingPointOffset.x, segment.curvePower, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 Services.car.steeringInfluenceFromCurve = Mathf.Lerp(startingSteeringInfluence, segment.CarInfluence, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
@@ -65,7 +65,7 @@ public class RoadManager : MonoBehaviour {
         // Wait for the now-current segment to finish.
         float timer = 0f;
         yield return new WaitUntil(() => {
-            timer += Time.deltaTime * Services.car.currentSpeed;
+            timer += Services.gameManager.drivingDeltaTime * Services.car.currentSpeed;
             if (timer < baseTimePerSegment) {
                 return false;
             }
