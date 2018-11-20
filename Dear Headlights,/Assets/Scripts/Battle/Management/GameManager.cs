@@ -32,11 +32,11 @@ namespace BattleSystem {
 
         private void Update() {
             if (gameState == GameState.Idle) {
-                Services.playerControllerField.Run();
+                //Services.playerControllerField.Run();
             }
 
             else if (gameState == GameState.Battle) {
-                Services.battleManager.Run();
+                //Services.battleManager.Run();
             }
         }
 

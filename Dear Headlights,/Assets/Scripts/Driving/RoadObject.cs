@@ -45,6 +45,7 @@ public class RoadObject : MonoBehaviour {
                 float viewportX = Camera.main.WorldToViewportPoint(previousPosition).x;
                 if (viewportX >= 0.2f && viewportX < 0.7f) {
                     transform.position = previousPosition;
+                    isCollidable = false;
                     Services.gameManager.Crash();
                 }
             }

@@ -13,18 +13,28 @@ public class BattleManager : MonoBehaviour {
 
     [HideInInspector] public List<Enemy> enemies = new List<Enemy>();
 
+    bool isInitialized = false;
+
     
-    private void OnEnable() {
+    public void OnEnable() {
         GameEventManager.instance.Subscribe<GameEvents.BattleStarted>(BattleStartedHandler);
+        GameEventManager.instance.Subscribe<GameEvents.BattleWon>(BattleWonHandler);
     }
 
 
     private void OnDisable() {
         GameEventManager.instance.Unsubscribe<GameEvents.BattleStarted>(BattleStartedHandler);
+        GameEventManager.instance.Unsubscribe<GameEvents.BattleWon>(BattleWonHandler);
     }
 
+    public void Awake() {
+        BattleSystem.Services.battleManager = this;
+        BattleSystem.Services.playerControllerBattle = FindObjectOfType<PlayerControllerBattle>();
+    }
+    
+    public void Update() {
+        if (!isInitialized) { return; }
 
-    public void Run() {
         // Check if battle is over.
         if (enemies.Count == 0) {
             battleCamera.enabled = false;
@@ -42,7 +52,6 @@ public class BattleManager : MonoBehaviour {
         player.Run();
     }
 
-
     void BattleStartedHandler(GameEvent gameEvent) {
         // Spawn enemies
         int numberOfEnemies = enemyAmountRange.Random;
@@ -55,5 +64,11 @@ public class BattleManager : MonoBehaviour {
 
         // Turn on camera
         battleCamera.enabled = true;
+
+        isInitialized = true;
+    }
+
+    void BattleWonHandler(GameEvent gameEvent) {
+        isInitialized = false;
     }
 }
