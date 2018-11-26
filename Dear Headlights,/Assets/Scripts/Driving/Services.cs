@@ -12,4 +12,5 @@ public class Services {
     public static RoadRenderer roadRenderer;
     public static Car car;
     public static RoadsideObjectManager roadsideObjectManager;
+    public static TimeVortexManager timeVortexManager;
 }

@@ -32,7 +32,7 @@ public class RoadObject : MonoBehaviour {
         float yPosition = approachCurve.Evaluate(currentDistance);
         yPosition = Den.Math.Map(yPosition, 0f, 1f, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y);
 
-        transform.position = Services.roadRenderer.GetRoadPosition(roadPosition, yPosition);
+        transform.localPosition = Services.roadRenderer.GetRoadPosition(roadPosition, yPosition);
 
         float newScale = Den.Math.Map(yPosition, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y, 0.01f, maxScale);
         transform.localScale = originalScale * newScale;
@@ -44,7 +44,7 @@ public class RoadObject : MonoBehaviour {
                 // See if we are colliding with the player.
                 float viewportX = Camera.main.WorldToViewportPoint(previousPosition).x;
                 if (viewportX >= 0.2f && viewportX < 0.7f) {
-                    transform.position = previousPosition;
+                    transform.localPosition = previousPosition;
                     isCollidable = false;
                     Services.gameManager.Crash();
                 }
@@ -55,14 +55,14 @@ public class RoadObject : MonoBehaviour {
             }
         }
 
-        previousPosition = transform.position;
+        previousPosition = transform.localPosition;
     }
 
     void RemoveSelf() {
-
         if (loop) {
             currentDistance = 0f;
             roadPosition = Services.roadsideObjectManager.GetRandomOffRoadPosition();
+            deleteTag = false;
         }
 
         else {

@@ -7,9 +7,9 @@ public class Moon : MonoBehaviour {
     [SerializeField] float moveSpeed = 0.5f;
 
     private void Update() {
-        Vector3 newPosition = transform.position;
+        Vector3 newPosition = transform.localPosition;
         newPosition.x += (Services.car.turningValue - Services.car.steeringInfluenceFromCurve) * -moveSpeed * Services.gameManager.drivingDeltaTime;
         newPosition.x = Den.Math.Wrap(newPosition.x, -15f, 15f);
-        transform.position = newPosition;
+        transform.localPosition = newPosition;
     }
 }

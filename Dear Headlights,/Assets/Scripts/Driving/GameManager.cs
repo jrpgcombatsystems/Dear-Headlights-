@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
         Services.roadRenderer = FindObjectOfType<RoadRenderer>();
         Services.car = FindObjectOfType<Car>();
         Services.roadsideObjectManager = FindObjectOfType<RoadsideObjectManager>();
+        Services.timeVortexManager = FindObjectOfType<TimeVortexManager>();
     }
 
     public void Update() {
@@ -50,12 +51,20 @@ public class GameManager : MonoBehaviour {
         GameObject cracks = GameObject.Find("CRACKS");
         cracks.GetComponent<SpriteRenderer>().enabled = true;
 
+        Services.timeVortexManager.GetReadyToStart();
+
+        yield return new WaitForSeconds(1f);
+
+        Services.timeVortexManager.BeginVortex();
+
         // Load battle scene
         SceneManager.LoadScene(battleSceneName, LoadSceneMode.Additive);
         yield return new WaitForEndOfFrame();
 
         // Give battle scene an extra frame to subscribe to events.
         yield return new WaitForEndOfFrame();
+
+        yield return new WaitForSeconds(1f);
 
         GameEventManager.instance.FireEvent(new GameEvents.BattleStarted());
 
@@ -68,13 +77,18 @@ public class GameManager : MonoBehaviour {
     }
 
     IEnumerator BattleEndSequence() {
+        yield return new WaitForSeconds(0.8f);
+
         SceneManager.UnloadSceneAsync(battleSceneName);
 
         GameObject cracks = GameObject.Find("CRACKS");
         cracks.GetComponent<Animator>().enabled = true;
+        Services.timeVortexManager.GetReadyToEnd();
 
         // Wait for crack animation to complete, just do this in a dumb way for now.
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
+
+        Services.timeVortexManager.EndVortex();
 
         foreach (Animator animator in FindObjectsOfType<Animator>()) {
             animator.enabled = true;

@@ -13,10 +13,15 @@ namespace Den {
         public Vector2 normalizedValue {
             get {
                 return new Vector2(
-Mathf.PerlinNoise(time.x + offset.x, 0f) * 2f - 1f,
-Mathf.PerlinNoise(0f, time.y + offset.y) * 2f - 1f
-);
+                    Mathf.PerlinNoise(time.x + offset.x, 0f) * 2f - 1f,
+                    Mathf.PerlinNoise(0f, time.y + offset.y) * 2f - 1f
+                    );
             }
+        }
+
+
+        public PerlinNoise() {
+            Initialize(0f, 0f);
         }
 
 

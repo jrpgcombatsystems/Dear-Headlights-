@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class RoadRenderer : MonoBehaviour {
 
-    public float horizon = 0f; // The y position of the horizon.
+    public float horizon = 0f; // The y position of the horizon line.
 
     [SerializeField] public RoadLineCurver leftEdgeCurve;
     [SerializeField] public RoadLineCurver rightEdgeCurve;
@@ -37,7 +37,7 @@ public class RoadRenderer : MonoBehaviour {
 
         // Set curve control point positions for road edges
         Vector3 _controlPointOffset = curveControlPointOffset;
-        _controlPointOffset.x += lowerOffset * 0.15f;
+        //_controlPointOffset.x += lowerOffset * 0.15f;
         leftEdgeCurve.curveControlPoint = Vector3.Lerp(leftEdgeCurve.lowerPoint, leftEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
         rightEdgeCurve.curveControlPoint = Vector3.Lerp(rightEdgeCurve.lowerPoint, rightEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
 

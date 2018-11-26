@@ -30,6 +30,7 @@ public class BattleManager : MonoBehaviour {
     public void Awake() {
         BattleSystem.Services.battleManager = this;
         BattleSystem.Services.playerControllerBattle = FindObjectOfType<PlayerControllerBattle>();
+        BattleSystem.Services.playerControllerBattle.gameObject.SetActive(false);
     }
     
     public void Update() {
@@ -53,6 +54,9 @@ public class BattleManager : MonoBehaviour {
     }
 
     void BattleStartedHandler(GameEvent gameEvent) {
+        // Activate player
+        BattleSystem.Services.playerControllerBattle.gameObject.SetActive(true);
+
         // Spawn enemies
         int numberOfEnemies = enemyAmountRange.Random;
         for (int i = 0; i < numberOfEnemies; i++) {

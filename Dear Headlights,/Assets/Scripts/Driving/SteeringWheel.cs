@@ -13,6 +13,6 @@ public class SteeringWheel : MonoBehaviour {
 
     private void Update() {
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, Den.Math.Map(Input.GetAxis("Horizontal"), -1f, 1f, maxRotation, -maxRotation));
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Services.gameManager.drivingDeltaTime);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotateSpeed * Services.gameManager.drivingDeltaTime);
     }
 }

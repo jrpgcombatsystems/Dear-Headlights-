@@ -10,6 +10,7 @@ public class RoadsideObjectManager : MonoBehaviour {
     [SerializeField] float maxDistanceFromRoad = 10f;
     [SerializeField] float minDistanceFromRoad = 0.5f;
     [SerializeField] int numberOfObjects;
+    [SerializeField] Transform objectParent;
 
     private RoadsideObjectGroup[] objectGroups;
     private RoadsideObjectGroup currentObjectGroup;
