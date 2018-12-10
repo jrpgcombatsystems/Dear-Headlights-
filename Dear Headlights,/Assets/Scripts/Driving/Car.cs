@@ -11,6 +11,7 @@ public class Car : MonoBehaviour {
     public float turnSpeed = 20f;
     public float minTurnSpeed = 0.1f;
     public float accelerationSpeed = 0.05f;
+    public float maxSpeed = 1000f;
 
     [HideInInspector] public float currentSpeed = 0f;
     [HideInInspector] public float turningValue = 0f; // How much the player is currently steering in a given direction. Should range from -1 to 1.
