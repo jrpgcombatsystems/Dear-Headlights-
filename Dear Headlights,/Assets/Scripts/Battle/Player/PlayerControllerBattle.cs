@@ -15,7 +15,7 @@ public class PlayerControllerBattle : MonoBehaviour {
     public void Run() {
         // Get input and move
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-        m_Rigidbody.MovePosition(transform.position + input.normalized * speed * Time.deltaTime);
+        m_Rigidbody.velocity = input.normalized * speed * Time.deltaTime;
         m_Gun.Fire();
     }
 }
