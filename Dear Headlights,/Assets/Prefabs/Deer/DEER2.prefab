@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4596732664372066}
+  - component: {fileID: 114621305014338796}
   - component: {fileID: 212313979785255156}
   - component: {fileID: 95815613046216434}
   m_Layer: 0
@@ -35,8 +36,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1755612498030708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.214671, y: 3.3800733, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -100, y: -100, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,6 +60,74 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114621305014338796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1755612498030708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27daa391b8fce024db7c0cdc9ae08723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxScale: 1.5
+  roadPosition: 0
+  approachCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.54404575
+      value: 0.0153365135
+      inSlope: 0.08742364
+      outSlope: 0.08742364
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10403204
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.87838507
+      value: 0.23384753
+      inSlope: 1.7120028
+      outSlope: 1.7120028
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04356647
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.95417506
+      value: 0.50424075
+      inSlope: 5.930283
+      outSlope: 5.930283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22299957
+      outWeight: 0.22331168
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 18.01035
+      outSlope: 18.01035
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0922523
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  approachSpeed: 0.3
+  loop: 0
+  isCollidable: 1
+  currentDistance: 0
 --- !u!212 &212313979785255156
 SpriteRenderer:
   m_ObjectHideFlags: 1
