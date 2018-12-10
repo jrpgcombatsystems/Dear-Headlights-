@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script is responsible for spawning enemies and running their behavior routines, as well as for seeing whether all the enemies have been defeated, and ending the battle sequence accordingly.
+/// </summary>
 public class BattleManager : MonoBehaviour {
 
     [SerializeField] Den.IntRange enemyAmountRange = new Den.IntRange(2, 5);
+
+    // The size, in world units of the battle screen.
     [SerializeField] Vector2 arenaSize;
 
     [SerializeField] PlayerControllerBattle player;
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] Camera battleCamera;
 
+    // Contains a reference to all the enemies currently alive.
     [HideInInspector] public List<Enemy> enemies = new List<Enemy>();
 
     bool isInitialized = false;
@@ -36,7 +42,7 @@ public class BattleManager : MonoBehaviour {
     public void Update() {
         if (!isInitialized) { return; }
 
-        // Check if battle is over.
+        // Check to see if the player has defeated all the enemies. If so, end the battle.
         if (enemies.Count == 0) {
             battleCamera.enabled = false;
             GameEventManager.instance.FireEvent(new GameEvents.BattleWon());
@@ -51,6 +57,10 @@ public class BattleManager : MonoBehaviour {
         }
 
         player.Run();
+    }
+
+    private void FixedUpdate() {
+        player.FixedRun();
     }
 
     void BattleStartedHandler(GameEvent gameEvent) {
