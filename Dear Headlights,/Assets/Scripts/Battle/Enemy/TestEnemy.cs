@@ -9,7 +9,6 @@ public class TestEnemy : Enemy {
 
     Vector3 velocity;
 
-
     public override void Run() {
         base.Run();
 
