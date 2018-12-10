@@ -134,7 +134,6 @@ public class TimeVortexManager : MonoBehaviour {
     }
 
     IEnumerator EndVortexCoroutine() {
-
         float tweenDuration = 1f;
 
         Ease tweenEase = Ease.InOutQuint;
