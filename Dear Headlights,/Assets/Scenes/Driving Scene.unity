@@ -552,10 +552,10 @@ MonoBehaviour:
   finalBlitToCameraTarget: 1
   antialiasingMode: 3
   temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
+    jitterSpread: 0.5
+    sharpness: 0.1
+    stationaryBlending: 0.5
+    motionBlending: 0.9
   subpixelMorphologicalAntialiasing:
     quality: 2
   fastApproximateAntialiasing:
@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 0}
+  sharedProfile: {fileID: 11400000, guid: c839ae4b6a686a646932cd88cc547f00, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
