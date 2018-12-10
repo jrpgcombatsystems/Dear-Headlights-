@@ -892,6 +892,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deerPrefabs:
   - {fileID: 1396722065647814, guid: 70101bf8e6e0e426981063cd1075cd88, type: 2}
+  - {fileID: 1755612498030708, guid: f0406736579524878a785e7c49485838, type: 2}
+  - {fileID: 1899868891472542, guid: 1c44951bef011442d8c83827346e31de, type: 2}
   spawnFrequency: 1
 --- !u!1 &746350261
 GameObject:
