@@ -10,7 +10,7 @@ public class Services {
     public static GameManager gameManager;
     public static RoadManager roadManager;
     public static RoadRenderer roadRenderer;
-    public static Car car;
+    public static PlayerCar playerCar;
     public static RoadsideObjectManager roadsideObjectManager;
     public static TimeVortexManager timeVortexManager;
 }

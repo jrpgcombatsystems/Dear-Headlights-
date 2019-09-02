@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    [HideInInspector] public float drivingTime;
     public float drivingTimeScale = 1;
-    [HideInInspector] public float drivingDeltaTime = 0f;
     [SerializeField] string battleSceneName = "Battle Test 2";
+    public AnimationCurve approachCurve;    // A curve defining how all objects in the game scale as they approach the screen.
+
+    [HideInInspector] public float drivingTime;
+    [HideInInspector] public float drivingDeltaTime = 0f;
 
     private float lastFrameTime = 0f;
 
@@ -20,13 +22,12 @@ public class GameManager : MonoBehaviour {
         GameEventManager.instance.Unsubscribe<GameEvents.BattleWon>(BattleWonHandler);
     }
 
-
     private void Awake() {
         // Locate and store references to various important classes.
         Services.gameManager = this;
         Services.roadManager = FindObjectOfType<RoadManager>();
         Services.roadRenderer = FindObjectOfType<RoadRenderer>();
-        Services.car = FindObjectOfType<Car>();
+        Services.playerCar = FindObjectOfType<PlayerCar>();
         Services.roadsideObjectManager = FindObjectOfType<RoadsideObjectManager>();
         Services.timeVortexManager = FindObjectOfType<TimeVortexManager>();
     }
@@ -42,7 +43,9 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator CrashSequence() {
+        // Pause the driving sequence
         drivingTimeScale = 0f;
+
         foreach (Animator animator in FindObjectsOfType<Animator>()) {
             animator.enabled = false;
         }
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void BattleWonHandler(GameEvent gameEvent) {
-        Debug.Log("endo bat");
+        Debug.Log("end of battle");
         StartCoroutine(BattleEndSequence());
     }
 

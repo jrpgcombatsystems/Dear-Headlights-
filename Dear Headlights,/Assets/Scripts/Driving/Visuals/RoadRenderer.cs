@@ -9,37 +9,40 @@ public class RoadRenderer : MonoBehaviour {
 
     public float horizon = 0f; // The y position of the horizon line.
 
-    [SerializeField] public RoadLineCurver leftEdgeCurve;
-    [SerializeField] public RoadLineCurver rightEdgeCurve;
+    private RoadLineCurver[] lineCurves;
 
     [HideInInspector] public Vector3 vanishingPointOffset = Vector3.zero;
     [HideInInspector] public float lowerOffset = 0f;
-    [HideInInspector] public float roadWidth = 50f;
+    [SerializeField] public float roadWidth = 50f;
     [HideInInspector] public Vector3 curveControlPointOffset = Vector3.zero;
 
     // Used in collision detection for edges of the road. Should be replaced with a better system.
     [HideInInspector] public float previousLowerOffset = 0f;
+    
+    [HideInInspector] public RoadLineCurver leftEdgeCurve { get { return lineCurves[0]; } }
+    [HideInInspector] public RoadLineCurver rightEdgeCurve { get { return lineCurves[lineCurves.Length - 1]; } }
 
+    private void Awake() {
+        lineCurves = GetComponentsInChildren<RoadLineCurver>();
+    }
 
     private void Update() {
 
         // Set the lower offset based on the direction the car is currently turning.
-        lowerOffset = Den.Math.Map(Services.car.roadPosition, -1f, 1f, roadWidth * 0.5f, roadWidth * -0.5f);
+        lowerOffset = Den.Math.Map(Services.playerCar.roadPosition, -1f, 1f, roadWidth * 0.5f, roadWidth * -0.5f);
 
         // Set the position of the vanishing point.
         Vector3 newVanishingPoint = new Vector3(vanishingPointOffset.x + lowerOffset * 0.1f, horizon, 0f);
-        leftEdgeCurve.upperPoint = newVanishingPoint;
-        rightEdgeCurve.upperPoint = newVanishingPoint;
 
-        // Set road width
-        leftEdgeCurve.lowerPoint = new Vector3((roadWidth * -0.5f) + lowerOffset, leftEdgeCurve.lowerPoint.y, 0f);
-        rightEdgeCurve.lowerPoint = new Vector3((roadWidth * 0.5f) + lowerOffset, rightEdgeCurve.lowerPoint.y, 0f);
+        foreach (RoadLineCurver lineCurve in lineCurves) {
+            lineCurve.upperPoint = newVanishingPoint;
 
-        // Set curve control point positions for road edges
-        Vector3 _controlPointOffset = curveControlPointOffset;
-        //_controlPointOffset.x += lowerOffset * 0.15f;
-        leftEdgeCurve.curveControlPoint = Vector3.Lerp(leftEdgeCurve.lowerPoint, leftEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
-        rightEdgeCurve.curveControlPoint = Vector3.Lerp(rightEdgeCurve.lowerPoint, rightEdgeCurve.upperPoint, 0.75f) + _controlPointOffset;
+            // Set road width
+            lineCurve.lowerPoint = new Vector3((roadWidth * lineCurve.roadPosition) + lowerOffset, lineCurve.lowerPoint.y, 0f);
+
+            // Set curve control point positions for road edges
+            lineCurve.curveControlPoint = Vector3.Lerp(lineCurve.lowerPoint, lineCurve.upperPoint, 0.75f) + curveControlPointOffset;
+        }
 
         previousLowerOffset = lowerOffset;
     }

@@ -18,7 +18,7 @@ public class RoadsideObjectManager : MonoBehaviour {
     private void Awake() {
         objectGroups = GetComponentsInChildren<RoadsideObjectGroup>();
 
-        // This script should include functionality for choosing a new object group, but since there's only one right now, don't bother.
+        // This script should include functionality for choosing a new object grsoup, but since there's only one right now, don't bother.
         currentObjectGroup = objectGroups[0];
     }
 
@@ -29,15 +29,17 @@ public class RoadsideObjectManager : MonoBehaviour {
     }
 
     private void SpawnObject() {
-        GameObject newObject = Instantiate(currentObjectGroup.GetRandomObject());
-        newObject.GetComponent<RoadObject>().roadPosition = GetRandomOffRoadPosition();
-        newObject.GetComponent<RoadObject>().currentDistance = Random.value;
+        RoadObject newObject = Instantiate(currentObjectGroup.GetRandomObject()).GetComponent<RoadObject>();
+        newObject.roadPosition = GetRandomOffRoadPosition();
+        newObject.currentDistance = Random.value;
     }
 
     public float GetRandomOffRoadPosition() {
         // Decide whether this object will be on the left or right side of the road
         int leftOrRight = -1;
         if (Random.value >= 0.5f) { leftOrRight = 1; }
+
+        // Return a random position on the chosen side.
         return leftOrRight * Random.Range(1f + minDistanceFromRoad, maxDistanceFromRoad + 1);
     }
 }

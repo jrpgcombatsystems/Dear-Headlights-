@@ -41,17 +41,17 @@ public class RoadManager : MonoBehaviour {
     IEnumerator ApplyCurveSequence(RoadCurveSegment segment) {
         // Store the variables to lerp from.
         Vector3 startingVanishingPointOffset = Services.roadRenderer.vanishingPointOffset;
-        float startingSteeringInfluence = Services.car.steeringInfluenceFromCurve;
+        float startingSteeringInfluence = Services.playerCar.steeringInfluenceFromCurve;
         Vector3 startingControlPointOffset = Services.roadRenderer.curveControlPointOffset;
 
         // Lerp the road renderer's values to those of the chosen segment, and wait until the lerp finishes to continue.
         float lerpValue = 0f;
         float lerpDuration = 3.5f;
         yield return new WaitUntil(() => {
-            lerpValue += Services.gameManager.drivingDeltaTime * Services.car.currentSpeed;
+            lerpValue += Services.gameManager.drivingDeltaTime * Services.playerCar.currentSpeed;
             if (lerpValue < lerpDuration) {
                 Services.roadRenderer.vanishingPointOffset.x = Mathf.Lerp(startingVanishingPointOffset.x, segment.curvePower, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
-                Services.car.steeringInfluenceFromCurve = Mathf.Lerp(startingSteeringInfluence, segment.CarInfluence, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
+                Services.playerCar.steeringInfluenceFromCurve = Mathf.Lerp(startingSteeringInfluence, segment.CarInfluence, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 Services.roadRenderer.curveControlPointOffset = Vector3.Lerp(startingControlPointOffset, segment.ControlPointOffset, Den.Math.Map(lerpValue, 0f, lerpDuration, 0f, 1f));
                 return false;
             }
@@ -65,7 +65,7 @@ public class RoadManager : MonoBehaviour {
         // Wait for the now-current segment to finish.
         float timer = 0f;
         yield return new WaitUntil(() => {
-            timer += Services.gameManager.drivingDeltaTime * Services.car.currentSpeed;
+            timer += Services.gameManager.drivingDeltaTime * Services.playerCar.currentSpeed;
             if (timer < baseTimePerSegment) {
                 return false;
             }
