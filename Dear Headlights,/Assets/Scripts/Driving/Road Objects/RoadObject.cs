@@ -16,7 +16,7 @@ public class RoadObject : MonoBehaviour {
     private Vector3 originalScale;
     private bool deleteTag = false;
 
-    private const float MAX_DISTANCE = 0.985f;
+    private const float MAX_DISTANCE = 1f;
 
     protected SpriteRenderer m_SpriteRenderer;
 
@@ -31,6 +31,8 @@ public class RoadObject : MonoBehaviour {
 
     protected virtual void Update() 
     {
+        if (Services.gameManager.drivingDeltaTime == 0) return;
+
         if (deleteTag) {
             RemoveSelf();
             return;
@@ -46,6 +48,7 @@ public class RoadObject : MonoBehaviour {
         float newScale = Den.Math.Map(yPosition, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y, 0.01f, m_Data.maxScale);
         transform.localScale = originalScale * newScale;
 
+        // Fade the sprite in from black
         if (m_SpriteRenderer) {
             m_SpriteRenderer.sortingOrder = Mathf.FloorToInt(Den.Math.Map(currentDistance, 0f, 1f, 0f, 10000f));
 
@@ -61,19 +64,16 @@ public class RoadObject : MonoBehaviour {
                 // Check for collision with player
                 BoxCollider2D m_Collider = GetComponent<BoxCollider2D>();
                 Collider2D[] overlappingColliders = Physics2D.OverlapBoxAll(m_Collider.bounds.center, m_Collider.size, 0f);
-                foreach(Collider2D collider in overlappingColliders) {
+                foreach (Collider2D collider in overlappingColliders) {
                     if (collider.GetComponent<PlayerCar>()) {
-                        transform.position = previousPosition;
-                        currentDistance = MAX_DISTANCE - 0.001f;
                         m_Data.isCollidable = false;
                         Services.gameManager.Crash();
+                        return;
                     }
                 }
             }
 
-            else {
-                deleteTag = true;
-            }
+            deleteTag = true;
         }
 
         previousPosition = transform.position;

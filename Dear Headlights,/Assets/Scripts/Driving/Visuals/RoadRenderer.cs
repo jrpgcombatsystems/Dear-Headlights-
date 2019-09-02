@@ -99,10 +99,20 @@ public class RoadRenderer : MonoBehaviour {
     }
 
     public Vector3 GetYPositionOnLine(float yPosition, LineRenderer lineRenderer) {
+
+        bool nextSegmenetDidntInclude = false;
+        float nextPositionY = 0f;
+
         for (int i = 0; i < lineRenderer.positionCount - 1; i++) {
+
+            if (i == lineRenderer.positionCount - 2 && lineRenderer.GetPosition(i + 1).y > yPosition) {
+                yPosition = lineRenderer.GetPosition(i + 1).y;
+            }
 
             // See if this segment includes the point we're looking for
             if (lineRenderer.GetPosition(i + 1).y > yPosition) {
+                nextSegmenetDidntInclude = true;
+                nextPositionY = lineRenderer.GetPosition(i + 1).y;
                 continue;
             }
 
@@ -122,6 +132,9 @@ public class RoadRenderer : MonoBehaviour {
             }
         }
 
+        Debug.LogError("next segment didn't include: " + nextSegmenetDidntInclude);
+        Debug.LogError("next position y: " + nextPositionY);
+        Debug.LogError("my y: " + yPosition);
         //Debug.LogError("hey this thing fucking doesnt work dude");
         return new Vector3(10000f, 10000f, 0f);
     }

@@ -55,7 +55,7 @@ public class PlayerCar : MonoBehaviour {
 
             // If this is the first frame we're braking, save the skid speed
             if (!isBraking) {
-                skidSpeed = Den.Math.Map(currentSpeed, 0f, maxSpeed, 1f, 2f);
+                skidSpeed = Den.Math.Map(currentSpeed, 0f, maxSpeed, 1f, 5f);
                 isBraking = true;
             }
         }
@@ -76,7 +76,6 @@ public class PlayerCar : MonoBehaviour {
         if (isBraking) {
             turningValue *= skidSpeed;
             skidSpeed = Mathf.Lerp(skidSpeed, 0, 0.05f * Services.gameManager.drivingDeltaTime);
-            Debug.Log("skid speed: " + skidSpeed);
         }
 
         roadPosition += turningValue;
