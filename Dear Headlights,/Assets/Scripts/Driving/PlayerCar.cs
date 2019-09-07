@@ -13,6 +13,7 @@ public class PlayerCar : MonoBehaviour {
     [SerializeField] private float accelerationSpeed = 0.05f;
     [SerializeField] private float decelerationSpeed = 0.4f;
     [SerializeField] private float maxBrakingMultiplier = 0.4f;
+    [SerializeField] private float minSpeed = 5f;
     [SerializeField] private float maxSpeed = 1000f;
     [SerializeField] private float invincibilityFrameTime = 1f;
 
@@ -47,7 +48,7 @@ public class PlayerCar : MonoBehaviour {
         }
 
         // Clamp current speed
-        _currentSpeed = Mathf.Clamp(_currentSpeed, 0f, maxSpeed);
+        _currentSpeed = Mathf.Clamp(_currentSpeed, minSpeed, maxSpeed);
 
         // Handle braking
         if (Input.GetAxisRaw("Vertical") < 0) {

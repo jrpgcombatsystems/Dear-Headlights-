@@ -2927,6 +2927,7 @@ MonoBehaviour:
   accelerationSpeed: 0.1
   decelerationSpeed: 0.4
   maxBrakingMultiplier: 0.4
+  minSpeed: 0.1
   maxSpeed: 2
   invincibilityFrameTime: 1
   turningValue: 0

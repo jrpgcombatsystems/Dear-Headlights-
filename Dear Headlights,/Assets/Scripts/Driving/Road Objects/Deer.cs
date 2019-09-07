@@ -35,7 +35,10 @@ public class Deer : RoadObject
 
             case State.Darting:
                 roadPosition += moveDirection * moveSpeed * (1 / Services.roadRenderer.roadWidth) * Services.gameManager.drivingDeltaTime;
-                if (willFreeze && Mathf.Abs(roadPosition - Services.playerCar.roadPosition) <= 0.1f) { state = State.Frozen; }
+                if (willFreeze && Mathf.Abs(roadPosition - Services.playerCar.roadPosition) <= 0.1f) {
+                    GetComponent<Animator>().enabled = false;
+                    state = State.Frozen;
+                }
                 break;
 
             case State.Frozen:

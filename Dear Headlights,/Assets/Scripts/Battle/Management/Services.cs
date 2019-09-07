@@ -5,10 +5,8 @@ using UnityEngine;
 namespace BattleSystem {
     public class Services {
 
-        public static BattleChanceManager battleChanceManager;
         public static BattleManager battleManager;
-        public static PlayerControllerField playerControllerField;
-        public static PlayerControllerBattle playerControllerBattle;
+        public static PlayerControllerBattle playerController;
         public static GameEventManager gameEventManager;
     }
 }

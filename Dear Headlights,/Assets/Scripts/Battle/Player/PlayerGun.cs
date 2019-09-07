@@ -5,11 +5,16 @@ using BattleSystem;
 
 public class PlayerGun : MonoBehaviour {
 
-    float damageRate = 2f;
-
     [SerializeField] GameObject knifePrefab;
+    [SerializeField] float shotFrequency = 0.1f;
 
-    LineRenderer m_LineRenderer { get { return GetComponentInChildren<LineRenderer>(); } }
+    [HideInInspector] public Enemy currentTarget;
+
+    private float shotTimer = 0f;
+
+    private void Awake() {
+        shotTimer = shotFrequency;
+    }
 
     public void Fire() {    
         // Get nearest enemy.
@@ -28,11 +33,18 @@ public class PlayerGun : MonoBehaviour {
             return;
         }
 
-        // Draw line to nearest enemy
-        m_LineRenderer.SetPosition(0, transform.position);
-        m_LineRenderer.SetPosition(1, nearestEnemy.transform.position);
+        currentTarget = nearestEnemy;
 
-        // Damage enemy.
-        nearestEnemy.health -= damageRate * Time.deltaTime;
+        // Shoot
+        shotTimer += Time.deltaTime;
+        if (shotTimer >= shotFrequency) {
+            Shoot();
+            shotTimer = 0;
+        }
+    }
+
+    void Shoot() {
+        PlayerKnife newKnife = Instantiate(knifePrefab).GetComponent<PlayerKnife>();
+        newKnife.Initialize(transform.position, Vector3.Normalize(transform.forward));
     }
 }

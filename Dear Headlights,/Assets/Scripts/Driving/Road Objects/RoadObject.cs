@@ -27,8 +27,6 @@ public class RoadObject : MonoBehaviour {
         m_Data = Instantiate(_m_Data);
     }
 
-    Vector3 previousPosition = Vector3.zero;
-
     protected virtual void Update() 
     {
         if (Services.gameManager.drivingDeltaTime == 0) return;
@@ -38,13 +36,15 @@ public class RoadObject : MonoBehaviour {
             return;
         }
 
+        // Move vertically
         currentDistance = Mathf.Clamp01(currentDistance + m_Data.approachSpeed * Services.gameManager.drivingDeltaTime * Services.playerCar.currentSpeed);
-
         float yPosition = Services.gameManager.approachCurve.Evaluate(currentDistance);
         yPosition = Den.Math.Map(yPosition, 0f, 1f, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y);
 
+        // Get horizontal position
         transform.localPosition = Services.roadRenderer.GetRoadPosition(roadPosition, yPosition);
 
+        // Handle scale
         float newScale = Den.Math.Map(yPosition, Services.roadRenderer.horizon, Services.roadRenderer.leftEdgeCurve.lowerPoint.y, 0.01f, m_Data.maxScale);
         transform.localScale = originalScale * newScale;
 
@@ -75,8 +75,6 @@ public class RoadObject : MonoBehaviour {
 
             deleteTag = true;
         }
-
-        previousPosition = transform.position;
     }
 
     void RemoveSelf() {
